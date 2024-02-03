@@ -55,6 +55,6 @@ export class HeroService {
   }
 
   public static generateID(): number {
-    return Math.floor(Math.random() * 100000);
+    return crypto.getRandomValues(new Uint32Array(1))[0];
   }
 }
