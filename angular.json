@@ -30,6 +30,7 @@
               "src/assets"
             ],
             "styles": [
+              "src/custom-theme.scss",
               "src/styles.sass"
             ],
             "scripts": []
@@ -92,10 +93,14 @@
             "styles": [
               "src/styles.sass"
             ],
-            "scripts": []
+            "scripts": [],
+            "karmaConfig": "karma.conf.js"
           }
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }
