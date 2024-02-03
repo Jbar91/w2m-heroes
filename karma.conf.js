@@ -27,7 +27,7 @@ module.exports = function (config) {
     coverageReporter: {
       dir: require("path").join(__dirname, "./coverage/w2m-heroes"),
       subdir: ".",
-      reporters: [{ type: "html" }, { type: "text" }, { type: "lcov" }],
+      reporters: [{ type: "text" }, { type: "lcov" }],
     },
     reporters: ["progress", "kjhtml"],
     browsers: ["ChromeHeadless"],
