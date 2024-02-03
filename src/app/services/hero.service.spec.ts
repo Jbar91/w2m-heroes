@@ -60,7 +60,7 @@ describe('HeroService', () => {
     });
   });
 
-  describe('Given the addHero methos', () => {
+  describe('Given the addHero method', () => {
     describe('When it is called with a valid hero', () => {
       it('Then it should add the hero to the list of heroes', () => {
         const newHero = {
