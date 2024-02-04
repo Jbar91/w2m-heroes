@@ -2,7 +2,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { Hero } from '../../../models/hero';
-import { HeroService } from '../../services/hero.service';
+import { HeroService } from '../../services/hero/hero.service';
 import { HeroesPanelComponent } from './heroes-panel.component';
 
 const heroesMock: Hero[] = [{ ID: 1, name: 'Mock Hero', origin: 'imaginary' }];

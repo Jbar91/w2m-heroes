@@ -1,7 +1,8 @@
 <div *ngIf="hero | async as hero; else noHero">
-  <p>{{ hero.name }}</p>
-  <p>{{ hero.ID }}</p>
-  <p>{{ hero.origin }}</p>
+  <h2>Name: {{ hero.name }}</h2>
+  <p>ID: {{ hero.ID }}</p>
+  <p>Origin: {{ hero.origin }}</p>
+  <button mat-stroked-button [routerLink]="['/edit', hero.ID,]" [queryParams]="{isEdit: true}">Edit Hero</button>
 </div>
 <ng-template #noHero>
   <p>No hero found, sorry!</p>
