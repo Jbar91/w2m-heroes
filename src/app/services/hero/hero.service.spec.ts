@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { heroes } from '../../mocks/heroes-initial-values';
+import { heroes } from '../../../mocks/heroes-initial-values';
 import { HeroService } from './hero.service';
 
 describe('HeroService', () => {
