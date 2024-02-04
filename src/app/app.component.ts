@@ -7,7 +7,7 @@ import { HeroesModule } from './heroes/heroes.module';
   standalone: true,
   imports: [RouterOutlet, HeroesModule],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.sass',
+  styleUrl: './app.component.scss',
 })
 export class AppComponent {
   title = 'W2M Superheroes';

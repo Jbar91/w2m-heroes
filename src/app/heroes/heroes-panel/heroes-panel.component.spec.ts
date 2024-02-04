@@ -1,15 +1,21 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { of } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { Hero } from '../../../models/hero';
-import { HeroService } from '../../services/hero.service';
+import { HeroService } from '../../services/hero/hero.service';
 import { HeroesPanelComponent } from './heroes-panel.component';
 
 const heroesMock: Hero[] = [{ ID: 1, name: 'Mock Hero', origin: 'imaginary' }];
 
 const heroServiceMock = {
   heroes$: of(heroesMock),
+  totalHeroes$: new BehaviorSubject(heroesMock),
   getHeroes: () => of(heroesMock),
+  count: 3,
+  page: 1,
+  loadNextHeroes: () => {},
+  loadPrevHeroes: () => {},
+  deleteHero: (id: number) => {},
 };
 
 describe('HeroesPanelComponent', () => {
@@ -49,6 +55,76 @@ describe('HeroesPanelComponent', () => {
           expect(heroes).toEqual(heroesMock);
         });
         expect(heroServiceMock.getHeroes).toHaveBeenCalled();
+      });
+    });
+  });
+
+  describe('Given the loadNextHeroes method', () => {
+    describe('When it is called', () => {
+      it('Then it should call loadNextHeroes from heroService', () => {
+        spyOn(heroServiceMock, 'loadNextHeroes').and.callThrough();
+
+        component.loadNextHeroes();
+
+        expect(heroServiceMock.loadNextHeroes).toHaveBeenCalled();
+      });
+    });
+  });
+
+  describe('Given the loadPrevHeroes method', () => {
+    describe('When it is called', () => {
+      it('Then it should call loadPrevHeroes from heroService', () => {
+        spyOn(heroServiceMock, 'loadPrevHeroes').and.callThrough();
+
+        component.loadPrevHeroes();
+
+        expect(heroServiceMock.loadPrevHeroes).toHaveBeenCalled();
+      });
+    });
+  });
+
+  describe('Given the disableNextButton method', () => {
+    describe('When it is called', () => {
+      it('Then it should return true if the count is equal or greater than the totalHeroes length', () => {
+        heroServiceMock.count = 23;
+        heroServiceMock.totalHeroes$.next(heroesMock);
+
+        expect(component.disableNextButton()).toBe(true);
+      });
+
+      it('Then it should return false if the count is less than the totalHeroes length', () => {
+        heroServiceMock.count = 0;
+        heroServiceMock.totalHeroes$.next(heroesMock);
+
+        expect(component.disableNextButton()).toBe(false);
+      });
+    });
+  });
+
+  describe('Given the disablePrevButton method', () => {
+    describe('When it is called', () => {
+      it('Then it should return true if the page is equal to 1', () => {
+        heroServiceMock.page = 1;
+
+        expect(component.disablePrevButton()).toBe(true);
+      });
+
+      it('Then it should return false if the page is greater than 1', () => {
+        heroServiceMock.page = 2;
+
+        expect(component.disablePrevButton()).toBe(false);
+      });
+    });
+  });
+
+  describe('Given the deleteHero method', () => {
+    describe('When it is called with a valid id', () => {
+      it('Then it should call deleteHero from heroService', () => {
+        spyOn(heroServiceMock, 'deleteHero').and.callThrough();
+
+        component.deleteHero(1);
+
+        expect(heroServiceMock.deleteHero).toHaveBeenCalledWith(1);
       });
     });
   });

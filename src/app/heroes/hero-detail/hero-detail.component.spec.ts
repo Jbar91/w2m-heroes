@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Hero } from '../../../models/hero';
-import { HeroService } from '../../services/hero.service';
+import { HeroService } from '../../services/hero/hero.service';
 import { HeroDetailComponent } from './hero-detail.component';
 import { Observable, of } from 'rxjs';
 

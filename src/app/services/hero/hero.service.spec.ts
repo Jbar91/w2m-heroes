@@ -1,16 +1,21 @@
 import { TestBed } from '@angular/core/testing';
-import { heroes } from '../../mocks/heroes-initial-values';
+import { heroes } from '../../../mocks/heroes-initial-values';
 import { HeroService } from './hero.service';
+import { of } from 'rxjs';
 
 describe('HeroService', () => {
   let service: HeroService;
 
+  const heroesPage1 = heroes.slice(0, 3);
+  const heroesPage2 = heroes.slice(3, 6);
+
   beforeEach(() => {
     TestBed.configureTestingModule({});
     service = TestBed.inject(HeroService);
-    service.heroes$.next(heroes);
+    service.totalHeroes$.next(heroes);
 
     spyOn(service.heroes$, 'next').and.callThrough();
+    spyOn(service.totalHeroes$, 'next').and.callThrough();
     spyOn(service.hero$, 'next').and.callThrough();
   });
 
@@ -25,13 +30,13 @@ describe('HeroService', () => {
   describe('Given the getHeroes method', () => {
     describe('When it is called', () => {
       it('Then it should return the list of heroes if the heroes$ length value is falsy', () => {
-        service.heroes$.next([]);
+        service.totalHeroes$.next([]);
 
         service
           .getHeroes()
           .subscribe((response) => expect(response).toEqual(heroes));
 
-        expect(service.heroes$.next).toHaveBeenCalledWith(heroes);
+        expect(service.heroes$.next).toHaveBeenCalledWith(heroesPage1);
       });
     });
   });
@@ -69,14 +74,14 @@ describe('HeroService', () => {
           origin: 'Imaginary',
         };
 
-        const originalHeroes = service.heroes$.value.length;
+        const originalHeroes = service.totalHeroes$.value.length;
 
         service.addHero(newHero);
 
-        const modifiedHeroes = service.heroes$.value.length;
+        const modifiedHeroes = service.totalHeroes$.value.length;
 
         expect(originalHeroes).toBeLessThan(modifiedHeroes);
-        expect(service.heroes$.value).toContain(newHero);
+        expect(service.totalHeroes$.value).toContain(newHero);
       });
     });
   });
@@ -89,10 +94,12 @@ describe('HeroService', () => {
 
         service.updateHero(modifiedHero);
 
-        const heroUpdated = service.heroes$.value[0];
+        const heroUpdated = service.totalHeroes$.value[0];
 
+        service.totalHeroes$.subscribe((heroes) => {
+          expect(heroes).toContain(modifiedHero);
+        });
         expect(heroUpdated).toEqual(modifiedHero);
-        expect(service.heroes$.value).toContain(modifiedHero);
       });
     });
   });
@@ -102,14 +109,44 @@ describe('HeroService', () => {
       it('Then it should delete the hero from the list', () => {
         const hero = heroes[0];
 
-        const originalHeroes = service.heroes$.value.length;
+        const originalHeroes = service.totalHeroes$.value.length;
 
         service.deleteHero(hero.ID);
 
-        const modifiedHeroes = service.heroes$.value.length;
+        const modifiedHeroes = service.totalHeroes$.value.length;
 
         expect(originalHeroes).toBeGreaterThan(modifiedHeroes);
-        expect(service.heroes$.value).not.toContain(hero);
+        expect(service.totalHeroes$.value).not.toContain(hero);
+      });
+    });
+  });
+
+  describe('Given the loadNextHeroes method', () => {
+    describe('When it is called', () => {
+      it('Then it should call heroes$.next with the 2nd page of heroes, add 3 to the offset & count properties & add 1 to the page property', () => {
+        service.loadNextHeroes();
+
+        expect(service.heroes$.next).toHaveBeenCalledWith(heroesPage2);
+        expect(service.offset).toBe(3);
+        expect(service.count).toBe(6);
+        expect(service.page).toBe(2);
+      });
+    });
+  });
+
+  describe('Given the loadPrevHeroes method', () => {
+    describe('When it is called', () => {
+      it('Then it should call heroes$.next with the 1st page of heroes, subtract 3 from the offset & count properties & subtract 1 from the page property', () => {
+        service.offset = 3;
+        service.count = 6;
+        service.page = 2;
+
+        service.loadPrevHeroes();
+
+        expect(service.heroes$.next).toHaveBeenCalledWith(heroesPage1);
+        expect(service.offset).toBe(0);
+        expect(service.count).toBe(3);
+        expect(service.page).toBe(1);
       });
     });
   });
