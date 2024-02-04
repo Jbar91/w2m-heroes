@@ -28,7 +28,7 @@ export class HeroService {
       this.heroes$.next(newHeroes);
     });
 
-    return this.heroes$;
+    return this.totalHeroes$;
   }
 
   public loadNextHeroes(): void {
@@ -58,7 +58,7 @@ export class HeroService {
   }
 
   public getHeroById(id: number): Observable<Hero | undefined> {
-    this.heroes$
+    this.totalHeroes$
       .pipe(map((heroes) => heroes.find((hero) => hero.ID === id)))
       .subscribe((hero) => this.hero$.next(hero));
 
@@ -66,7 +66,7 @@ export class HeroService {
   }
 
   public getHeroesByName(name: string): Observable<Hero[]> {
-    return this.heroes$.pipe(
+    return this.totalHeroes$.pipe(
       map((heroes) =>
         heroes.filter((hero) =>
           hero.name.toLowerCase().includes(name.toLowerCase())
@@ -81,19 +81,17 @@ export class HeroService {
   }
 
   public updateHero(hero: Hero): void {
-    this.totalHeroes$.pipe(
-      map((heroes) =>
-        heroes.map((heroToUpdate) =>
-          hero.ID === heroToUpdate.ID ? hero : heroes
-        )
-      )
+    const updatedHeroes = this.totalHeroes$.value.map((heroToUpdate) =>
+      hero.ID === heroToUpdate.ID ? hero : heroToUpdate
     );
+    this.totalHeroes$.next(updatedHeroes);
   }
 
   public deleteHero(id: number): void {
-    this.totalHeroes$
-      .pipe(map((heroes) => heroes.filter((hero) => hero.ID !== id)))
-      .subscribe((heroes) => this.totalHeroes$.next(heroes));
+    const deletedHeroes = this.totalHeroes$.value.filter(
+      (hero) => hero.ID !== id
+    );
+    this.totalHeroes$.next(deletedHeroes);
   }
 
   public static generateID(): number {

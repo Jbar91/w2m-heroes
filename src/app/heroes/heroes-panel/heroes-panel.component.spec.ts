@@ -1,6 +1,6 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { of } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { Hero } from '../../../models/hero';
 import { HeroService } from '../../services/hero/hero.service';
 import { HeroesPanelComponent } from './heroes-panel.component';
@@ -9,7 +9,10 @@ const heroesMock: Hero[] = [{ ID: 1, name: 'Mock Hero', origin: 'imaginary' }];
 
 const heroServiceMock = {
   heroes$: of(heroesMock),
+  totalHeroes$: new BehaviorSubject(heroesMock),
   getHeroes: () => of(heroesMock),
+  count: 3,
+  page: 1,
 };
 
 describe('HeroesPanelComponent', () => {

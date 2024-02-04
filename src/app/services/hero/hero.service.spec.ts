@@ -8,9 +8,10 @@ describe('HeroService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({});
     service = TestBed.inject(HeroService);
-    service.heroes$.next(heroes);
+    service.totalHeroes$.next(heroes);
 
     spyOn(service.heroes$, 'next').and.callThrough();
+    spyOn(service.totalHeroes$, 'next').and.callThrough();
     spyOn(service.hero$, 'next').and.callThrough();
   });
 
@@ -25,13 +26,15 @@ describe('HeroService', () => {
   describe('Given the getHeroes method', () => {
     describe('When it is called', () => {
       it('Then it should return the list of heroes if the heroes$ length value is falsy', () => {
-        service.heroes$.next([]);
+        service.totalHeroes$.next([]);
 
         service
           .getHeroes()
           .subscribe((response) => expect(response).toEqual(heroes));
 
-        expect(service.heroes$.next).toHaveBeenCalledWith(heroes);
+        const heroesPage1 = heroes.slice(service.offset, service.limit);
+
+        expect(service.heroes$.next).toHaveBeenCalledWith(heroesPage1);
       });
     });
   });
@@ -69,14 +72,14 @@ describe('HeroService', () => {
           origin: 'Imaginary',
         };
 
-        const originalHeroes = service.heroes$.value.length;
+        const originalHeroes = service.totalHeroes$.value.length;
 
         service.addHero(newHero);
 
-        const modifiedHeroes = service.heroes$.value.length;
+        const modifiedHeroes = service.totalHeroes$.value.length;
 
         expect(originalHeroes).toBeLessThan(modifiedHeroes);
-        expect(service.heroes$.value).toContain(newHero);
+        expect(service.totalHeroes$.value).toContain(newHero);
       });
     });
   });
@@ -89,10 +92,12 @@ describe('HeroService', () => {
 
         service.updateHero(modifiedHero);
 
-        const heroUpdated = service.heroes$.value[0];
+        const heroUpdated = service.totalHeroes$.value[0];
 
+        service.totalHeroes$.subscribe((heroes) => {
+          expect(heroes).toContain(modifiedHero);
+        });
         expect(heroUpdated).toEqual(modifiedHero);
-        expect(service.heroes$.value).toContain(modifiedHero);
       });
     });
   });
@@ -102,14 +107,14 @@ describe('HeroService', () => {
       it('Then it should delete the hero from the list', () => {
         const hero = heroes[0];
 
-        const originalHeroes = service.heroes$.value.length;
+        const originalHeroes = service.totalHeroes$.value.length;
 
         service.deleteHero(hero.ID);
 
-        const modifiedHeroes = service.heroes$.value.length;
+        const modifiedHeroes = service.totalHeroes$.value.length;
 
         expect(originalHeroes).toBeGreaterThan(modifiedHeroes);
-        expect(service.heroes$.value).not.toContain(hero);
+        expect(service.totalHeroes$.value).not.toContain(hero);
       });
     });
   });
