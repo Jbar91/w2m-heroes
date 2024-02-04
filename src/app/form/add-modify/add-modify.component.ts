@@ -1,13 +1,13 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FormControl, FormsModule, Validators } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { HeroService } from '../../services/hero/hero.service';
-import { CommonModule, Location } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
 import { ActivatedRoute } from '@angular/router';
 import { Hero } from '../../../models/hero';
+import { HeroService } from '../../services/hero/hero.service';
 import { LocationService } from '../../services/location/location.service';
 
 @Component({
