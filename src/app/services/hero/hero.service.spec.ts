@@ -63,6 +63,14 @@ describe('HeroService', () => {
         });
       });
     });
+
+    describe('When it is called with an invalid name', () => {
+      it('Then it should return an empty list', () => {
+        service.getHeroesByName('').subscribe((response) => {
+          expect(response).toEqual([]);
+        });
+      });
+    });
   });
 
   describe('Given the addHero method', () => {

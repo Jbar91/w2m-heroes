@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, map } from 'rxjs';
+import { BehaviorSubject, Observable, map, of } from 'rxjs';
 import { Hero } from '../../../models/hero';
 import { heroes } from '../../../mocks/heroes-initial-values';
 
@@ -66,13 +66,17 @@ export class HeroService {
   }
 
   public getHeroesByName(name: string): Observable<Hero[]> {
-    return this.totalHeroes$.pipe(
-      map((heroes) =>
-        heroes.filter((hero) =>
-          hero.name.toLowerCase().includes(name.toLowerCase())
+    if (name) {
+      return this.totalHeroes$.pipe(
+        map((heroes) =>
+          heroes.filter((hero) =>
+            hero.name.toLowerCase().includes(name.toLowerCase())
+          )
         )
-      )
-    );
+      );
+    } else {
+      return of([]);
+    }
   }
 
   public addHero(hero: Hero): void {
