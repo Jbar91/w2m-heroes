@@ -1,0 +1,11 @@
+<mat-form-field>
+  <input matInput placeholder="Search for a hero" [(ngModel)]="name" (keyup)="searchHero(name)"
+    [matAutocomplete]="auto" />
+  <mat-autocomplete #auto="matAutocomplete">
+    @for (hero of heroes | async; track hero){
+    <mat-option [value]="hero.name" [routerLink]="['/detail', hero.ID]">
+      {{hero.name}}
+    </mat-option>
+    }
+  </mat-autocomplete>
+</mat-form-field>
