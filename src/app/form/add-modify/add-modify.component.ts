@@ -79,8 +79,17 @@ export class AddModifyComponent implements OnInit {
       origin: this.hero.value.origin,
     };
 
-    this.heroService.addHero(heroToAdd);
-    this.locationService.goBack();
+    this.heroService.addHero(heroToAdd).subscribe((response) => {
+      if (response) {
+        this.dialogService
+          .loadingDialog('Hero added', true)
+          .subscribe((response) => {
+            if (response) {
+              this.locationService.goBack();
+            }
+          });
+      }
+    });
   }
 
   public loadHero(): void {
@@ -111,8 +120,17 @@ export class AddModifyComponent implements OnInit {
         origin: this.hero.get('origin')?.value,
       };
 
-      this.heroService.updateHero(heroToUpdate);
-      this.locationService.goBack();
+      this.heroService.updateHero(heroToUpdate).subscribe((response) => {
+        if (response) {
+          this.dialogService
+            .loadingDialog('Hero updated', true)
+            .subscribe((response) => {
+              if (response) {
+                this.locationService.goBack();
+              }
+            });
+        }
+      });
     }
   }
 

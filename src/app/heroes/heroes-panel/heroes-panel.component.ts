@@ -40,6 +40,7 @@ export class HeroesPanelComponent implements OnInit {
       .confirmDialog('Are you sure you want to delete this hero?')
       .subscribe((result) => {
         if (result) {
+          this.dialogService.loadingDialog('Hero deleted').subscribe();
           this.heroService.deleteHero(id);
         }
       });

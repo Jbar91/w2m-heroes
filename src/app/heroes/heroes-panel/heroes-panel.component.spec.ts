@@ -21,6 +21,7 @@ const heroServiceMock = {
 
 const dialogServiceMock = {
   confirmDialog: (message: string) => of(true),
+  loadingDialog: (message: string, disableClose?: boolean) => of(),
 };
 
 describe('HeroesPanelComponent', () => {
