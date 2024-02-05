@@ -1,5 +1,6 @@
-<div>
-  <div>
+<div class="form-container">
+  <h2>{{ isEdit ? 'Edit' : 'Add' }} Hero</h2>
+  <div class="form-inputs">
     <mat-form-field>
       <mat-label>Hero Name</mat-label>
       <input matInput [(ngModel)]="hero.name" id="name" placeholder="Hero Name" required />
@@ -7,8 +8,6 @@
       <mat-error>Please name your hero</mat-error>
       }
     </mat-form-field>
-  </div>
-  <div>
     <mat-form-field>
       <mat-label>Hero Origin</mat-label>
       <mat-select [(ngModel)]="hero.origin" id="origin" required>
@@ -21,9 +20,10 @@
       }
     </mat-form-field>
   </div>
-
-  <button *ngIf="!isEdit" mat-stroked-button color="primary" (click)="addHero()"
-    [disabled]="!hero.name || !hero.origin">Add Hero</button>
-  <button *ngIf="isEdit" mat-stroked-button color="primary" (click)="updateHero()">Update Hero</button>
-  <button mat-stroked-button color="primary" (click)="goHome()">Go Home</button>
+  <div class="form-actions">
+    <button *ngIf="!isEdit" mat-stroked-button color="primary" (click)="addHero()"
+      [disabled]="!hero.name || !hero.origin">Add Hero</button>
+    <button *ngIf="isEdit" mat-stroked-button color="primary" (click)="updateHero()">Update Hero</button>
+    <button mat-stroked-button color="primary" (click)="goHome()">Go Home</button>
+  </div>
 </div>

@@ -1,15 +1,19 @@
 <section class="heroes-section">
   <div class="controls">
-    <button mat-stroked-button (click)="loadPrevHeroes()" [disabled]="disablePrevButton()">Prev</button>
+    <button mat-stroked-button color="primary" [routerLink]="['/add']">Add Hero</button>
     <search-hero></search-hero>
-    <button mat-stroked-button (click)="loadNextHeroes()" [disabled]="disableNextButton()">Next</button>
+    <div class="pagination">
+      <button mat-stroked-button (click)="loadPrevHeroes()" [disabled]="disablePrevButton()">Prev</button>
+      <p>Page: {{heroService.page}}</p>
+      <button mat-stroked-button (click)="loadNextHeroes()" [disabled]="disableNextButton()">Next</button>
+    </div>
   </div>
   <div class="heroes-container">
     <ul>
       <li *ngFor="let hero of heroes | async" class="hero-card">
-        <div [routerLink]="['/detail', hero.ID]">
-          <h2>{{hero.name}}</h2>
-          <p>Origin: {{hero.origin}}</p>
+        <div [routerLink]="['/detail', hero.ID]" class="hero-information">
+          <h2>{{hero.name | uppercase}}</h2>
+          <p><b>Origin:</b> {{hero.origin}}</p>
         </div>
         <div class="hero-actions">
           <button mat-stroked-button color="primary" [routerLink]="['/edit', hero.ID]"
@@ -21,4 +25,3 @@
 
   </div>
 </section>
-<button mat-stroked-button color="primary" [routerLink]="['/add']">Add Hero</button>

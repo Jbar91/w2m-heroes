@@ -10,9 +10,16 @@ li {
 
 .controls {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   align-items: center;
-  overflow-y: auto;
+  width: 100%;
+
+  .pagination{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+  }
 }
 
 .heroes-container {
@@ -45,25 +52,29 @@ li {
   border-radius: 10px;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
   width: 200px;
-  h2 {
-    margin-top: 10px;
-  }
-  p {
-    margin-top: 10px;
+
+  .hero-information{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    h2 {
+      margin-top: 10px;
+      text-align: center;
+    }
+    p {
+      margin-top: 10px;
+    }
   }
 }
 .hero-card:hover {
   cursor: pointer;
 }
 
-.heroes-actions {
+.hero-actions {
   display: flex;
+  gap: 0.5rem;
   justify-content: space-between;
   align-items: center;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  padding: 20px;
-  background-color: #f5f5f5;
-  border-radius: 10px;
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
 }
