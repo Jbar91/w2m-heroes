@@ -4,6 +4,7 @@ import { BehaviorSubject, of } from 'rxjs';
 import { Hero } from '../../../models/hero';
 import { HeroService } from '../../services/hero/hero.service';
 import { HeroesPanelComponent } from './heroes-panel.component';
+import { DialogService } from '../../services/dialog/dialog.service';
 
 const heroesMock: Hero[] = [{ ID: 1, name: 'Mock Hero', origin: 'imaginary' }];
 
@@ -18,6 +19,10 @@ const heroServiceMock = {
   deleteHero: (id: number) => {},
 };
 
+const dialogServiceMock = {
+  confirmDialog: (message: string) => of(true),
+};
+
 describe('HeroesPanelComponent', () => {
   let component: HeroesPanelComponent;
   let fixture: ComponentFixture<HeroesPanelComponent>;
@@ -25,7 +30,10 @@ describe('HeroesPanelComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [HeroesPanelComponent],
-      providers: [{ provide: HeroService, useValue: heroServiceMock }],
+      providers: [
+        { provide: HeroService, useValue: heroServiceMock },
+        { provide: DialogService, useValue: dialogServiceMock },
+      ],
       schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
   });
@@ -121,6 +129,7 @@ describe('HeroesPanelComponent', () => {
     describe('When it is called with a valid id', () => {
       it('Then it should call deleteHero from heroService', () => {
         spyOn(heroServiceMock, 'deleteHero').and.callThrough();
+        spyOn(dialogServiceMock, 'confirmDialog').and.callThrough();
 
         component.deleteHero(1);
 
