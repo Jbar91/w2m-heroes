@@ -3,6 +3,7 @@ import { ConfirmDialogComponent } from '../../dialog/confirm-dialog/confirm-dial
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { ErrorDialogComponent } from '../../dialog/error-dialog/error-dialog.component';
+import { LoadingDialogComponent } from '../../dialog/loading-dialog/loading-dialog.component';
 
 @Injectable({
   providedIn: 'root',
@@ -26,6 +27,21 @@ export class DialogService {
         message: message,
       },
     });
+
+    return dialogRef.afterClosed();
+  }
+
+  public loadingDialog(
+    message: string,
+    disableClose?: boolean
+  ): Observable<boolean> {
+    const dialogRef = this.dialog.open(LoadingDialogComponent, {
+      data: {
+        message: message,
+      },
+    });
+    dialogRef.disableClose = disableClose;
+    dialogRef.componentInstance.onLoadAction();
 
     return dialogRef.afterClosed();
   }

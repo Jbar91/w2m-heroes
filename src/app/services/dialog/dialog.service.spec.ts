@@ -28,4 +28,14 @@ describe('DialogService', () => {
       });
     });
   });
+
+  describe('Given the loadingDialog method', () => {
+    describe('When it is called with disableClose set', () => {
+      it('Then it should set dialogRef.disableClose to true and return an Observable', () => {
+        const some = service.loadingDialog('', true);
+
+        expect(some).toBeTruthy();
+      });
+    });
+  });
 });
