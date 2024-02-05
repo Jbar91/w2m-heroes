@@ -38,7 +38,7 @@ describe('AddModifyComponent', () => {
   const heroServiceMock = {
     hero$: new BehaviorSubject(heroMock),
     getHeroById: (id: number): Observable<Hero | undefined> => of(heroMock),
-    addHero: (hero: Hero) => () => {},
+    addHero: (hero: Hero) => of(true),
     updateHero: (hero: Hero) => of(updatedHeroMock),
   };
 
@@ -49,6 +49,7 @@ describe('AddModifyComponent', () => {
 
   const dialogServiceMock = {
     errorDialog: (message: string) => of(),
+    loadingDialog: (message: string, disableClose?: boolean) => of(true),
   };
 
   beforeEach(async () => {

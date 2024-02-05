@@ -79,16 +79,20 @@ export class HeroService {
     }
   }
 
-  public addHero(hero: Hero): void {
+  public addHero(hero: Hero): Observable<Hero> {
     const newHeroes = [...this.totalHeroes$.value, hero];
     this.totalHeroes$.next(newHeroes);
+
+    return of(hero);
   }
 
-  public updateHero(hero: Hero): void {
+  public updateHero(hero: Hero): Observable<Hero> {
     const updatedHeroes = this.totalHeroes$.value.map((heroToUpdate) =>
       hero.ID === heroToUpdate.ID ? hero : heroToUpdate
     );
     this.totalHeroes$.next(updatedHeroes);
+
+    return of(hero);
   }
 
   public deleteHero(id: number): void {
