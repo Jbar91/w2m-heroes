@@ -1,1 +1,18 @@
-/* Empty line to comply with audit */
+.hero-detail{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: max-content;
+}
+
+.hero-info{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    width: 200px;
+}

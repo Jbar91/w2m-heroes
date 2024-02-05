@@ -1,3 +1,7 @@
+:host{
+  width: 100%;
+}
+
 li {
   list-style: none;
 }
@@ -27,7 +31,6 @@ li {
   flex-wrap: wrap;
   justify-content: space-around;
   align-items: center;
-  margin-bottom: 2.5rem;
 
   ul {
     display: flex;
@@ -35,8 +38,9 @@ li {
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
-    margin-bottom: 2rem;
+    margin: 0;
     padding: 2rem;
+    padding-bottom: 1rem;
   }
 }
 
@@ -61,6 +65,7 @@ li {
 
     h2 {
       margin-top: 10px;
+      margin-bottom: 10px;
       text-align: center;
     }
     p {
