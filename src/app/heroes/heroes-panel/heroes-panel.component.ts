@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HeroService } from '../../services/hero/hero.service';
+import { DialogService } from '../../services/dialog/dialog.service';
 
 @Component({
   selector: 'heroes-panel',
@@ -9,7 +10,10 @@ import { HeroService } from '../../services/hero/hero.service';
 export class HeroesPanelComponent implements OnInit {
   protected heroes = this.heroService.heroes$;
 
-  constructor(protected heroService: HeroService) {}
+  constructor(
+    protected heroService: HeroService,
+    private dialogService: DialogService
+  ) {}
 
   ngOnInit() {
     this.heroService.getHeroes().subscribe();
@@ -32,6 +36,12 @@ export class HeroesPanelComponent implements OnInit {
   }
 
   public deleteHero(id: number): void {
-    this.heroService.deleteHero(id);
+    this.dialogService
+      .confirmDialog('Are you sure you want to delete this hero?')
+      .subscribe((result) => {
+        if (result) {
+          this.heroService.deleteHero(id);
+        }
+      });
   }
 }
