@@ -5,6 +5,7 @@ import { Hero } from '../../../models/hero';
 import { of } from 'rxjs';
 import { HeroService } from '../../services/hero/hero.service';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('SearchHeroComponent', () => {
   let component: SearchHeroComponent;
@@ -20,11 +21,18 @@ describe('SearchHeroComponent', () => {
     await TestBed.configureTestingModule({
       imports: [SearchHeroComponent, NoopAnimationsModule],
       providers: [{ provide: HeroService, useValue: heroServiceMock }],
+      schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
+  });
 
+  beforeEach(() => {
     fixture = TestBed.createComponent(SearchHeroComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+  });
+
+  afterEach(() => {
+    TestBed.resetTestingModule();
   });
 
   it('should create', () => {

@@ -9,6 +9,10 @@ describe('DialogService', () => {
     service = TestBed.inject(DialogService);
   });
 
+  afterEach(() => {
+    TestBed.resetTestingModule();
+  });
+
   it('should be created', () => {
     expect(service).toBeTruthy();
   });

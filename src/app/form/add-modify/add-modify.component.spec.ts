@@ -62,10 +62,16 @@ describe('AddModifyComponent', () => {
         { provide: DialogService, useValue: dialogServiceMock },
       ],
     }).compileComponents();
+  });
 
+  beforeEach(() => {
     fixture = TestBed.createComponent(AddModifyComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+  });
+
+  afterEach(() => {
+    TestBed.resetTestingModule();
   });
 
   it('should create', () => {

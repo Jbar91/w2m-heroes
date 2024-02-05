@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { LocationService } from '../../services/location/location.service';
 import { ErrorDialogComponent } from './error-dialog.component';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ErrorDialogComponent', () => {
   let component: ErrorDialogComponent;
@@ -23,11 +24,18 @@ describe('ErrorDialogComponent', () => {
         { provide: MAT_DIALOG_DATA, useValue: {} },
         { provide: LocationService, useValue: locationServiceMock },
       ],
+      schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
+  });
 
+  beforeEach(() => {
     fixture = TestBed.createComponent(ErrorDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+  });
+
+  afterEach(() => {
+    TestBed.resetTestingModule();
   });
 
   it('should create', () => {
