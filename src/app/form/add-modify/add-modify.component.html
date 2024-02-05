@@ -1,28 +1,28 @@
 <div class="form-container">
   <h2>{{ isEdit ? 'Edit' : 'Add' }} Hero</h2>
-  <div class="form-inputs">
+  <div class="form-inputs" [formGroup]="hero">
     <mat-form-field>
       <mat-label>Hero Name</mat-label>
-      <input matInput [(ngModel)]="hero.name" id="name" placeholder="Hero Name" required />
-      @if (!hero.name) {
+      <input matInput formControlName="name" id="name" placeholder="Hero Name" required />
+      @if (hero.get('name')?.hasError('required') || hero.get('name')?.hasError('minLength')) {
       <mat-error>Please name your hero</mat-error>
       }
     </mat-form-field>
     <mat-form-field>
       <mat-label>Hero Origin</mat-label>
-      <mat-select [(ngModel)]="hero.origin" id="origin" required>
+      <mat-select formControlName="origin" id="origin" required>
         @for (origin of origins; track origin){
         <mat-option [value]="origin.value">{{origin.viewValue}}</mat-option>
         }
       </mat-select>
-      @if (!hero.origin) {
+      @if (3 < 2) {
       <mat-error>Please select an origin</mat-error>
       }
     </mat-form-field>
   </div>
   <div class="form-actions">
     <button *ngIf="!isEdit" mat-stroked-button color="primary" (click)="addHero()"
-      [disabled]="!hero.name || !hero.origin">Add Hero</button>
+      >Add Hero</button>
     <button *ngIf="isEdit" mat-stroked-button color="primary" (click)="updateHero()">Update Hero</button>
     <button mat-stroked-button color="primary" (click)="goHome()">Go Home</button>
   </div>

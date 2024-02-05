@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -19,6 +19,7 @@ import { LocationService } from '../../services/location/location.service';
     MatButtonModule,
     MatSelectModule,
     FormsModule,
+    ReactiveFormsModule,
     CommonModule,
   ],
   providers: [],
@@ -26,11 +27,7 @@ import { LocationService } from '../../services/location/location.service';
   styleUrl: './add-modify.component.scss',
 })
 export class AddModifyComponent implements OnInit {
-  public hero: Hero = {
-    name: '',
-    origin: '',
-    ID: 0,
-  };
+  public hero: FormGroup;
 
   public origins = [
     { value: 'DC', viewValue: 'DC' },
@@ -46,7 +43,12 @@ export class AddModifyComponent implements OnInit {
     private heroService: HeroService,
     private locationService: LocationService,
     private route: ActivatedRoute
-  ) {}
+  ) {
+    this.hero =new FormGroup({
+      name: new FormControl('', [Validators.required, Validators.minLength(3)]),
+      origin: new FormControl('', [Validators.required]),
+    })
+  }
 
   ngOnInit() {
     this.isEdit = this.route.snapshot.queryParams['isEdit'];
@@ -58,28 +60,36 @@ export class AddModifyComponent implements OnInit {
   public addHero() {
     const heroToAdd = {
       ID: HeroService.generateID(),
-      name: this.hero.name,
-      origin: this.hero.origin,
+      name: this.hero.value.name,
+      origin: this.hero.value.origin,
     };
 
-    this.heroService.addHero(heroToAdd);
-    this.locationService.goBack();
+    // this.heroService.addHero(heroToAdd);
+    console.log(this.hero, heroToAdd)
+    // this.locationService.goBack();
   }
 
   public loadHero() {
     this.id = this.route.snapshot.paramMap.get('id');
     this.heroService.getHeroById(parseInt(this.id!, 10));
-    this.hero = this.heroService.hero$.value!;
+    const heroLoaded = this.heroService.hero$.value
+    
+    if (heroLoaded){
+      this.hero.patchValue({
+        name: heroLoaded.name,
+        origin: heroLoaded.origin
+      })
+    }
   }
 
   public updateHero() {
     const heroToUpdate = {
-      ID: this.hero.ID,
-      name: this.hero.name,
-      origin: this.hero.origin,
+      // ID: this.hero.ID,
+      // name: this.hero.name,
+      // origin: this.hero.origin,
     };
 
-    this.heroService.updateHero(heroToUpdate);
+    // this.heroService.updateHero(heroToUpdate);
     this.locationService.goBack();
   }
 
