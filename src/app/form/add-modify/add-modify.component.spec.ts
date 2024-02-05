@@ -2,10 +2,11 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AddModifyComponent } from './add-modify.component';
 import { ActivatedRoute } from '@angular/router';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Hero } from '../../../models/hero';
 import { HeroService } from '../../services/hero/hero.service';
 import { LocationService } from '../../services/location/location.service';
+import { DialogService } from '../../services/dialog/dialog.service';
 
 describe('AddModifyComponent', () => {
   let component: AddModifyComponent;
@@ -36,7 +37,7 @@ describe('AddModifyComponent', () => {
 
   const heroServiceMock = {
     hero$: new BehaviorSubject(heroMock),
-    getHeroById: (id: number) => of(heroMock),
+    getHeroById: (id: number): Observable<Hero | undefined> => of(heroMock),
     addHero: (hero: Hero) => () => {},
     updateHero: (hero: Hero) => of(updatedHeroMock),
   };
@@ -46,6 +47,10 @@ describe('AddModifyComponent', () => {
     goHome: () => {},
   };
 
+  const dialogServiceMock = {
+    errorDialog: (message: string) => of(),
+  };
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [AddModifyComponent, NoopAnimationsModule],
@@ -53,6 +58,7 @@ describe('AddModifyComponent', () => {
         { provide: ActivatedRoute, useValue: routeMock },
         { provide: HeroService, useValue: heroServiceMock },
         { provide: LocationService, useValue: locationServiceMock },
+        { provide: DialogService, useValue: dialogServiceMock },
       ],
     }).compileComponents();
 
@@ -95,6 +101,7 @@ describe('AddModifyComponent', () => {
   describe('Given the loadHero method', () => {
     describe('When it is called', () => {
       it('Then it should call heroService.getHeroById & set the hero property', () => {
+        heroServiceMock.getHeroById = () => of(heroMock);
         spyOn(heroServiceMock, 'getHeroById').and.callThrough();
         spyOn(heroServiceMock.hero$, 'next').and.callThrough();
 
@@ -103,7 +110,21 @@ describe('AddModifyComponent', () => {
         expect(heroServiceMock.getHeroById).toHaveBeenCalledWith(
           routeMock.snapshot.paramMap.get()
         );
-        expect(component.hero).toEqual(heroMock);
+        expect(component.heroLoaded).toEqual(heroMock);
+      });
+    });
+
+    describe('When it is called & heroLoaded is false', () => {
+      it('Then it should call dialogService.errorDialog', () => {
+        heroServiceMock.getHeroById = () => of(undefined);
+        spyOn(dialogServiceMock, 'errorDialog').and.callThrough();
+        component.heroLoaded = undefined;
+
+        component.loadHero();
+
+        expect(dialogServiceMock.errorDialog).toHaveBeenCalledWith(
+          'Hero not found'
+        );
       });
     });
   });
@@ -130,6 +151,34 @@ describe('AddModifyComponent', () => {
         component.goHome();
 
         expect(locationServiceMock.goHome).toHaveBeenCalled();
+      });
+    });
+  });
+
+  describe('Given the getErrorMessage method', () => {
+    describe('When it is called and the name field is falsy', () => {
+      it('Then it should return "Name is required"', () => {
+        component.hero.get('name')?.setErrors({ required: true });
+
+        expect(component.getErrorMessage()).toEqual('Name is required');
+      });
+    });
+
+    describe('When it is called and the name field is truthy but less than 3 characters long', () => {
+      it('Then it should return "Name must be at least 3 characters long"', () => {
+        component.hero.get('name')?.setErrors({ minlength: true });
+
+        expect(component.getErrorMessage()).toEqual(
+          'Name must be at least 3 characters long'
+        );
+      });
+    });
+
+    describe('When it is called and the name field is truthy and more than 3 characters long', () => {
+      it('Then it should return an empty string', () => {
+        component.hero.get('name')?.setErrors(null);
+
+        expect(component.getErrorMessage()).toEqual('');
       });
     });
   });

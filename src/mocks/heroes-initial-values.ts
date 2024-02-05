@@ -3,42 +3,42 @@ import { Hero } from '../models/hero';
 export const heroes: Hero[] = [
   {
     ID: 1,
-    name: 'Spiderman',
+    name: 'SPIDERMAN',
     origin: 'Marvel',
   },
   {
     ID: 2,
-    name: 'Ironman',
+    name: 'IRONMAN',
     origin: 'Marvel',
   },
   {
     ID: 3,
-    name: 'Hulk',
+    name: 'HULK',
     origin: 'Marvel',
   },
   {
     ID: 4,
-    name: 'Thor',
+    name: 'THOR',
     origin: 'Marvel',
   },
   {
     ID: 5,
-    name: 'Captain America',
+    name: 'CAPTAIN AMERICA',
     origin: 'Marvel',
   },
   {
     ID: 6,
-    name: 'Batman',
+    name: 'BATMAN',
     origin: 'DC',
   },
   {
     ID: 7,
-    name: 'Superman',
+    name: 'SUPERMAN',
     origin: 'DC',
   },
   {
     ID: 8,
-    name: 'Wonder Woman',
+    name: 'WONDER WOMAN',
     origin: 'DC',
   },
 ];

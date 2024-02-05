@@ -20,4 +20,12 @@ describe('DialogService', () => {
       });
     });
   });
+
+  describe('Given the errorDialog method', () => {
+    describe('When it is called', () => {
+      it('Then it should return an Observable', () => {
+        expect(service.errorDialog('')).toBeTruthy();
+      });
+    });
+  });
 });
