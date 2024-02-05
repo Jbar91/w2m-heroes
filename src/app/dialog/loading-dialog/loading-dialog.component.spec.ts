@@ -7,6 +7,7 @@ import {
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { LocationService } from '../../services/location/location.service';
 import { LoadingDialogComponent } from './loading-dialog.component';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('LoadingDialogComponent', () => {
   let component: LoadingDialogComponent;
@@ -23,11 +24,18 @@ describe('LoadingDialogComponent', () => {
         { provide: MatDialogRef, useValue: loadingDialogComponentMock },
         { provide: MAT_DIALOG_DATA, useValue: {} },
       ],
+      schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
+  });
 
+  beforeEach(() => {
     fixture = TestBed.createComponent(LoadingDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+  });
+
+  afterEach(() => {
+    TestBed.resetTestingModule();
   });
 
   it('should create', () => {

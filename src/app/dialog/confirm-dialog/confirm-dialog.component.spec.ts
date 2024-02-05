@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ConfirmDialogComponent } from './confirm-dialog.component';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ConfirmDialogComponent', () => {
   let component: ConfirmDialogComponent;
@@ -17,14 +18,18 @@ describe('ConfirmDialogComponent', () => {
         { provide: MatDialogRef, useValue: confirmDialogComponentMock },
         { provide: MAT_DIALOG_DATA, useValue: {} },
       ],
+      schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfirmDialogComponent);
     component = fixture.componentInstance;
-    component.dialogRef = confirmDialogComponentMock;
     fixture.detectChanges();
+  });
+
+  afterEach(() => {
+    TestBed.resetTestingModule();
   });
 
   it('should create', () => {
