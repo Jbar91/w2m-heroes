@@ -1,14 +1,18 @@
 <div class="hero-detail">
   @if (hero | async; as hero){
-    <div class="hero-info">
-      <h2>Name: {{ hero.name | uppercase }}</h2>
+  <div class="hero-info">
+    <h2>Name: {{ hero.name | uppercase }}</h2>
     <p>ID: {{ hero.ID }}</p>
     <p>Origin: {{ hero.origin }}</p>
-    <button mat-stroked-button [routerLink]="['/edit', hero.ID,]" [queryParams]="{isEdit: true}" color="primary">Edit Hero</button>
+    <div class="hero-controls">
+      <button mat-stroked-button [routerLink]="['/edit', hero.ID,]" [queryParams]="{isEdit: true}" color="primary">Edit
+        Hero</button>
+      <button mat-stroked-button (click)="goBack()" color="primary">Go Back</button>
+    </div>
   </div>
-} @else {
+  } @else {
   <div>
     <h2>No hero found, sorry!</h2>
   </div>
-}
+  }
 </div>

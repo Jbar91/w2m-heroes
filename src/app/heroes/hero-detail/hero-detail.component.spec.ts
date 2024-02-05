@@ -5,6 +5,7 @@ import { Hero } from '../../../models/hero';
 import { HeroService } from '../../services/hero/hero.service';
 import { HeroDetailComponent } from './hero-detail.component';
 import { Observable, of } from 'rxjs';
+import { LocationService } from '../../services/location/location.service';
 
 const heroMock = { ID: 1, name: 'Mock Hero', origin: 'imaginary' };
 
@@ -25,12 +26,17 @@ describe('HeroDetailComponent', () => {
     },
   };
 
+  const locationServiceMock = {
+    goBack: () => {},
+  };
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [HeroDetailComponent],
       providers: [
         { provide: ActivatedRoute, useValue: routeMock },
         { provide: HeroService, useValue: heroServiceMock },
+        { provide: LocationService, useValue: locationServiceMock },
       ],
       schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
@@ -73,6 +79,18 @@ describe('HeroDetailComponent', () => {
           expect(hero).toEqual(heroMock);
         });
         expect(heroServiceMock.getHeroById).toHaveBeenCalledWith(1);
+      });
+    });
+  });
+
+  describe('Given the goBack method', () => {
+    describe('When it is called', () => {
+      it('Then it should call the goBack method from locationService', () => {
+        spyOn(locationServiceMock, 'goBack');
+
+        component.goBack();
+
+        expect(locationServiceMock.goBack).toHaveBeenCalled();
       });
     });
   });
