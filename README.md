@@ -1,27 +1,18 @@
-# W2mHeroes
+# W2M Heroes
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.1.2.
+## Description
 
-## Development server
+This project is a [Angular](https://angular.io/) application that allows users to manage heroes. Users can add, update, and delete heroes, and view a list of all heroes.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Installation
 
-## Code scaffolding
+1. Clone the repository: `git clone https://github.com/jbar91/w2m-heroes.git`
+2. Navigate into the directory: `cd w2m-heroes`
+3. Install the dependencies: `npm install`
+4. Start the server: `ng serve`
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+The application will be running at `http://localhost:4200`.
 
-## Build
+## Usage
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+After starting the server, navigate to `http://localhost:4200` in your web browser. You will see a list of heroes. You can add a new hero by clicking the "Add Hero" button, update a hero by clicking the "Edit" button next to a hero, and delete a hero by clicking the "Delete" button next to a hero.
